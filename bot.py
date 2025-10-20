@@ -8,6 +8,8 @@ import threading
 import time
 import datetime
 
+print(os.environ)
+
 translator = Translator()
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
