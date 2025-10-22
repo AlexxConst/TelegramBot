@@ -50,38 +50,27 @@ def start(message):
     # Обработка нажатий кнопок
 
 
-@bot.message_handler(func=lambda message: True)
-def handle_buttons(message):
-    if message.text == "Перевести текст":
-        bot.send_message(message.chat.id, "Отправь текст для перевода...")
-    elif message.text == "Погода":
-        bot.send_message(message.chat.id, "Введите город для погоды...")
-    elif message.text == "Цитата дня":
-        bot.send_message(message.chat.id, "Вот твоя цитата на сегодня...")
-    elif message.text == "Напоминание":
-        bot.send_message(message.chat.id, "Когда и что напомнить?")
-    elif message.text == "Новости Израиля":
-        bot.send_message(message.chat.id, "Вот последние новости...")
-    elif message.text == "Курс валют 💰":
-        bot.send_message(message.chat.id, "Курс валют на сегодня...")
-    elif message.text == "Помощь":
-        bot.send_message(
-            message.chat.id, "Я могу помочь с переводом, погодой, новостями и др."
-        )
-    else:
-        bot.send_message(message.chat.id, "Я не понимаю, выбери кнопку 👆")
+# --- Обработка нажатий кнопок ---
+@bot.messsage_handler(fucn=lambda message: True)
+def handle_button(message):
+    text = message.text.lower()
 
-    # text = (
-    #     "Привет! Я твой помощник, вот что я умею 🤖\n"
-    #     "/translate – Перевести текст\n"
-    #     "/weather – Погода\n"
-    #     "/quote – Цитата дня\n"
-    #     "/remind – Напоминание\n"
-    #     "/news - Новости Израиля\n"
-    #     "/currency - Курс валют 💰"
-    #     "/help - Помощь\n",
-    # )
-    # bot.send_message(message.chat.id, text)
+    if "перевести" in text:
+        translate_text(message)
+    elif "погода" in text:
+        weather(message)
+    elif "цитата" in text:
+        quote(message)
+    elif "напоминание" in text:
+        remind(message)
+    elif "новост" in text:
+        news(message)
+    elif "курс" in text or "валют" in text:
+        currency(message)
+    elif "помощ" in text or "help" in text:
+        help_command(message)
+    else:
+        bot.send_message(message.chat.id, "🤔 Не понял команду. Выбери из меню 👇")
 
 
 # Help
