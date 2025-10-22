@@ -19,17 +19,69 @@ bot = telebot.TeleBot(TOKEN)
 # Start
 @bot.message_handler(commands=["start"])
 def start(message):
-    text = (
-        "Привет! Я твой помощник, вот что я умею 🤖\n"
-        "/translate – Перевести текст\n"
-        "/weather – Погода\n"
-        "/quote – Цитата дня\n"
-        "/remind – Напоминание\n"
-        "/news - Новости Израиля\n"
-        "/currency - Курс валют 💰"
-        "/help - Помощь\n",
+    # Создаём клавиатуру с кнопками
+    keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+
+    btn_translate = types.KeyboardButton("Перевести текст")
+    btn_weather = types.KeyboardButton("Погода")
+    btn_quote = types.KeyboardButton("Цитата дня")
+    btn_remind = types.KeyboardButton("Напоминание")
+    btn_news = types.KeyboardButton("Новости Израиля")
+    btn_currency = types.KeyboardButton("Курс валют 💰")
+    btn_help = types.KeyboardButton("Помощь")
+
+    # Добавляем кнопки на клавиатуру
+    keyboard.add(
+        btn_translate,
+        btn_weather,
+        btn_quote,
+        btn_remind,
+        btn_news,
+        btn_currency,
+        btn_help,
     )
-    bot.send_message(message.chat.id, text)
+
+    bot.send_message(
+        message.chat.id,
+        "Привет! Я твой помощник, выбери действие 👇",
+        reply_markup=keyboard,
+    )
+
+    # Обработка нажатий кнопок
+
+
+@bot.message_handler(func=lambda message: True)
+def handle_buttons(message):
+    if message.text == "Перевести текст":
+        bot.send_message(message.chat.id, "Отправь текст для перевода...")
+    elif message.text == "Погода":
+        bot.send_message(message.chat.id, "Введите город для погоды...")
+    elif message.text == "Цитата дня":
+        bot.send_message(message.chat.id, "Вот твоя цитата на сегодня...")
+    elif message.text == "Напоминание":
+        bot.send_message(message.chat.id, "Когда и что напомнить?")
+    elif message.text == "Новости Израиля":
+        bot.send_message(message.chat.id, "Вот последние новости...")
+    elif message.text == "Курс валют 💰":
+        bot.send_message(message.chat.id, "Курс валют на сегодня...")
+    elif message.text == "Помощь":
+        bot.send_message(
+            message.chat.id, "Я могу помочь с переводом, погодой, новостями и др."
+        )
+    else:
+        bot.send_message(message.chat.id, "Я не понимаю, выбери кнопку 👆")
+
+    # text = (
+    #     "Привет! Я твой помощник, вот что я умею 🤖\n"
+    #     "/translate – Перевести текст\n"
+    #     "/weather – Погода\n"
+    #     "/quote – Цитата дня\n"
+    #     "/remind – Напоминание\n"
+    #     "/news - Новости Израиля\n"
+    #     "/currency - Курс валют 💰"
+    #     "/help - Помощь\n",
+    # )
+    # bot.send_message(message.chat.id, text)
 
 
 # Help
