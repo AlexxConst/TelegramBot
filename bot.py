@@ -51,7 +51,7 @@ def start(message):
 
 
 # --- Обработка нажатий кнопок ---
-@bot.messsage_handler(fucn=lambda message: True)
+@bot.message_handler(func=lambda message: True)
 def handle_button(message):
     text = message.text.lower()
 
@@ -369,6 +369,30 @@ def handle_translate(message, dest_lang):
         f"🌍 Определен язык: {detected_lang}\n"
         f"🔁 Перевод на {dest_lang}:\n\n{translated.text}",
         reply_markup=types.ReplyKeyboardRemove(),
+    )
+
+    # 🔹 После перевода возвращаем главные кнопки
+    markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+    btn_translate = types.KeyboardButton("Перевести текст")
+    btn_weather = types.KeyboardButton("Погода")
+    btn_quote = types.KeyboardButton("Цитата дня")
+    btn_remind = types.KeyboardButton("Напоминание")
+    btn_news = types.KeyboardButton("Новости Израиля")
+    btn_currency = types.KeyboardButton("Курс валют 💰")
+    btn_help = types.KeyboardButton("Помощь")
+
+    markup.add(
+        btn_translate,
+        btn_weather,
+        btn_quote,
+        btn_remind,
+        btn_news,
+        btn_currency,
+        btn_help,
+    )
+
+    bot.send_message(
+        message.chat.id, "✅ Выбери следующее действие 👇", reply_markup=markup
     )
 
 
